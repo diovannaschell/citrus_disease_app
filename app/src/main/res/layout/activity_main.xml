@@ -27,6 +27,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="409dp"
+        android:layout_height="244dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintTop_toBottomOf="@+id/galleryButton"
+        tools:layout_editor_absoluteX="1dp" />
+
     <Button
         android:id="@+id/cameraButton"
         android:layout_width="wrap_content"

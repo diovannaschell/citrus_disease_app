@@ -12,10 +12,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+
+import com.example.diseasedetector.ml.Modelo;
+
+import org.tensorflow.lite.support.image.TensorImage;
+import org.tensorflow.lite.support.label.Category;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,5 +96,36 @@ public class MainActivity extends AppCompatActivity {
     protected void imageSelected(Bitmap bitmapImg) {
         ImageView imgView = findViewById(R.id.imageView);
         imgView.setImageBitmap(bitmapImg);
+
+        // usar o modelo pré-treinado para analizar a imagem selecionada
+        try {
+            Modelo model = Modelo.newInstance(getApplicationContext());
+
+            // Converte a imagem selecionada de bitmap para tensor
+            TensorImage image = TensorImage.fromBitmap(bitmapImg);
+
+            // Roda a inferência do modelo e pega os resultados
+            Modelo.Outputs outputs = model.process(image);
+            List<Category> probability = outputs.getProbabilityAsCategoryList();
+
+            // Listar todos os resultados
+            ArrayList<String> resultados = new ArrayList<>();
+            for(Category resultado : probability)
+            {
+                Float score = resultado.getScore() * 100;
+                String textResult = resultado.getLabel().concat(" - ").concat(score.toString()).concat("%");
+                resultados.add(textResult);
+            }
+
+            ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultados);
+
+            ListView list = findViewById(R.id.list);
+            list.setAdapter(listAdapter);
+
+            // Releases model resources if no longer used.
+            model.close();
+        } catch (IOException e) {
+            // TODO Handle the exception
+        }
     }
 }

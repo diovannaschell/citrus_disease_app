@@ -1,0 +1,184 @@
+[
+  {
+    "level_": 0,
+    "message_": "Start JSON generation. Platform version: 21 min SDK version: x86",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 1650883327
+  },
+  {
+    "level_": 0,
+    "message_": "rebuilding JSON D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\.cxx\\RelWithDebInfo\\174z6e4m\\x86\\android_gradle_build.json due to:",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -1645183828
+  },
+  {
+    "level_": 0,
+    "message_": "- expected json D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\.cxx\\RelWithDebInfo\\174z6e4m\\x86\\android_gradle_build.json file is not present, will remove stale json folder",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -1778820366
+  },
+  {
+    "level_": 0,
+    "message_": "- missing previous command file D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\.cxx\\RelWithDebInfo\\174z6e4m\\x86\\metadata_generation_command.txt, will remove stale json folder",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 1637537136
+  },
+  {
+    "level_": 0,
+    "message_": "- command changed from previous, will remove stale json folder",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -182954341
+  },
+  {
+    "level_": 0,
+    "message_": "removing stale contents from \u0027D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\.cxx\\RelWithDebInfo\\174z6e4m\\x86\u0027",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 644834222
+  },
+  {
+    "level_": 0,
+    "message_": "created folder \u0027D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\.cxx\\RelWithDebInfo\\174z6e4m\\x86\u0027",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -927082206
+  },
+  {
+    "level_": 0,
+    "message_": "executing cmake Executable : C:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\cmake.exe\narguments : \n-HD:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_SYSTEM_VERSION\u003d21\n-DANDROID_PLATFORM\u003dandroid-21\n-DANDROID_ABI\u003dx86\n-DCMAKE_ANDROID_ARCH_ABI\u003dx86\n-DANDROID_NDK\u003dC:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\n-DCMAKE_ANDROID_NDK\u003dC:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\n-DCMAKE_TOOLCHAIN_FILE\u003dC:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003dC:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\ninja.exe\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dD:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\build\\intermediates\\cxx\\RelWithDebInfo\\174z6e4m\\obj\\x86\n-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003dD:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\build\\intermediates\\cxx\\RelWithDebInfo\\174z6e4m\\obj\\x86\n-DCMAKE_BUILD_TYPE\u003dRelWithDebInfo\n-BD:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\.cxx\\RelWithDebInfo\\174z6e4m\\x86\n-GNinja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 634618116
+  },
+  {
+    "level_": 0,
+    "message_": "Executable : C:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\cmake.exe\narguments : \n-HD:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_SYSTEM_VERSION\u003d21\n-DANDROID_PLATFORM\u003dandroid-21\n-DANDROID_ABI\u003dx86\n-DCMAKE_ANDROID_ARCH_ABI\u003dx86\n-DANDROID_NDK\u003dC:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\n-DCMAKE_ANDROID_NDK\u003dC:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\n-DCMAKE_TOOLCHAIN_FILE\u003dC:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\ndk\\21.4.7075529\\build\\cmake\\android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003dC:\\Users\\diova\\AppData\\Local\\Android\\Sdk\\cmake\\3.18.1\\bin\\ninja.exe\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003dD:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\build\\intermediates\\cxx\\RelWithDebInfo\\174z6e4m\\obj\\x86\n-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003dD:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\build\\intermediates\\cxx\\RelWithDebInfo\\174z6e4m\\obj\\x86\n-DCMAKE_BUILD_TYPE\u003dRelWithDebInfo\n-BD:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\.cxx\\RelWithDebInfo\\174z6e4m\\x86\n-GNinja\n-DANDROID_STL\u003dc++_shared\njvmArgs : \n\n",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -2063599741
+  },
+  {
+    "level_": 0,
+    "message_": "Exiting generation of D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\.cxx\\RelWithDebInfo\\174z6e4m\\x86\\compile_commands.json.bin normally",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 489335512
+  },
+  {
+    "level_": 0,
+    "message_": "done executing cmake",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -495300592
+  },
+  {
+    "level_": 0,
+    "message_": "write command file D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\.cxx\\RelWithDebInfo\\174z6e4m\\x86\\metadata_generation_command.txt",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -1163687178
+  },
+  {
+    "level_": 0,
+    "message_": "JSON generation completed without problems",
+    "file_": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\libcxx_helper\\CMakeLists.txt",
+    "tag_": "release|x86",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 1442772492
+  }
+]

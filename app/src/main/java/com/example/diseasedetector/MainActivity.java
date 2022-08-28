@@ -19,6 +19,11 @@ import android.widget.ListView;
 
 import com.example.diseasedetector.ml.Modelo;
 
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
 import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.label.Category;
 
@@ -35,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // configurar opencv
+        OpenCVLoader.initDebug();
 
         // configurar o acesso a galeria
         galleryActivityLauncher = registerForActivityResult(
@@ -94,15 +102,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void imageSelected(Bitmap bitmapImg) {
+        // criar imagem mat com o bitmap
+        Mat originalMatImage = new Mat();
+        Utils.bitmapToMat(bitmapImg, originalMatImage);
+
+        // aplicar o blur
+        Mat bluredMatImage = new Mat(originalMatImage.rows(), originalMatImage.cols(), originalMatImage.type());
+        Imgproc.blur(originalMatImage, bluredMatImage, new Size(51, 51));
+
+        // voltar de Mat pra bitmap para seguir com a análise
+        Bitmap finalBitmap = Bitmap.createBitmap(originalMatImage.cols(), originalMatImage.rows(), Bitmap.Config.ARGB_8888);
+
+        Utils.matToBitmap(bluredMatImage, finalBitmap);
+
         ImageView imgView = findViewById(R.id.imageView);
-        imgView.setImageBitmap(bitmapImg);
+        imgView.setImageBitmap(finalBitmap);
 
         // usar o modelo pré-treinado para analizar a imagem selecionada
         try {
             Modelo model = Modelo.newInstance(getApplicationContext());
 
             // Converte a imagem selecionada de bitmap para tensor
-            TensorImage image = TensorImage.fromBitmap(bitmapImg);
+            TensorImage image = TensorImage.fromBitmap(finalBitmap);
 
             // Roda a inferência do modelo e pega os resultados
             Modelo.Outputs outputs = model.process(image);

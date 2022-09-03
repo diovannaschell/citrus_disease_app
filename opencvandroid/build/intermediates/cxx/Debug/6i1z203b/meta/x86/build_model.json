@@ -29,10 +29,7 @@
     "intermediatesFolder": "D:\\faculdade\\tcc\\citrus_disease_app\\opencvandroid\\build\\intermediates\\cxx\\Debug\\6i1z203b",
     "isDebuggableEnabled": true,
     "validAbiList": [
-      "ARMEABI_V7A",
-      "ARM64_V8A",
-      "X86",
-      "X86_64"
+      "X86"
     ],
     "buildTargetSet": [
       "opencv_jni_shared"
@@ -133,6 +130,7 @@
         "rootBuildGradleFolder": "D:\\faculdade\\tcc\\citrus_disease_app",
         "sdkFolder": "C:\\Users\\diova\\AppData\\Local\\Android\\Sdk",
         "isBuildOnlyTargetAbiEnabled": true,
+        "ideBuildTargetAbi": "x86",
         "isCmakeBuildCohabitationEnabled": false,
         "isPrefabEnabled": false
       },

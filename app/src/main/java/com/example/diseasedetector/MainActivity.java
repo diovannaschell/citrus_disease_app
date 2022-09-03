@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onActivityResult(Uri result) {
                         try {
                             // ler o bitmap da imagem selecionada
-                            Bitmap bitmapImg = MediaStore.Images.Media.getBitmap(getContentResolver(), result);
-                            imageSelected(bitmapImg);
+                            if (result != null) {
+                                Bitmap bitmapImg = MediaStore.Images.Media.getBitmap(getContentResolver(), result);
+                                imageSelected(bitmapImg);
+                            }
                         } catch (IOException e) {
-                            // TODO: tratar quando o usuário não selecionar nenhuma imagem
-                            e.printStackTrace();
                         }
                     }
                 }
@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
                             Bundle bundle = result.getData().getExtras();
                             Bitmap bitmapImg = (Bitmap) bundle.get("data");
                             imageSelected(bitmapImg);
-                        } else {
-                            // TODO: tratar quando o usuário sair sem selecionar foto
                         }
                     }
                 }
@@ -115,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
         Utils.matToBitmap(bluredMatImage, finalBitmap);
 
-        ImageView imgView = findViewById(R.id.imageView);
-        imgView.setImageBitmap(finalBitmap);
+//        ImageView imgView = findViewById(R.id.imageView);
+//        imgView.setImageBitmap(finalBitmap);
 
         // usar o modelo pré-treinado para analizar a imagem selecionada
         try {
@@ -130,23 +128,22 @@ public class MainActivity extends AppCompatActivity {
             List<Category> probability = outputs.getProbabilityAsCategoryList();
 
             // Listar todos os resultados
-            ArrayList<String> resultados = new ArrayList<>();
-            for(Category resultado : probability)
-            {
-                Float score = resultado.getScore() * 100;
-                String textResult = resultado.getLabel().concat(" - ").concat(score.toString()).concat("%");
-                resultados.add(textResult);
-            }
-
-            ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultados);
-
-            ListView list = findViewById(R.id.list);
-            list.setAdapter(listAdapter);
+//            ArrayList<String> resultados = new ArrayList<>();
+//            for(Category resultado : probability)
+//            {
+//                Float score = resultado.getScore() * 100;
+//                String textResult = resultado.getLabel().concat(" - ").concat(score.toString()).concat("%");
+//                resultados.add(textResult);
+//            }
+//
+//            ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultados);
+//
+//            ListView list = findViewById(R.id.list);
+//            list.setAdapter(listAdapter);
 
             // Releases model resources if no longer used.
             model.close();
         } catch (IOException e) {
-            // TODO Handle the exception
         }
     }
 }

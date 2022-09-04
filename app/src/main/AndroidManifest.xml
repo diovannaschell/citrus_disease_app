@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DiseaseDetector">
         <activity
+            android:name=".BlackSpotActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GreeningActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CankerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HealtyActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

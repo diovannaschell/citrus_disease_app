@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/faculdade/tcc/citrus_disease_app/app/src/main/res/layout/activity_black_spot.xml" value="0.2" />
+        <entry key="..\:/faculdade/tcc/citrus_disease_app/app/src/main/res/layout/activity_canker.xml" value="0.2" />
+        <entry key="..\:/faculdade/tcc/citrus_disease_app/app/src/main/res/layout/activity_greening.xml" value="0.2" />
+        <entry key="..\:/faculdade/tcc/citrus_disease_app/app/src/main/res/layout/activity_healty.xml" value="0.25" />
         <entry key="..\:/faculdade/tcc/citrus_disease_app/app/src/main/res/layout/activity_main.xml" value="0.25" />
       </map>
     </option>

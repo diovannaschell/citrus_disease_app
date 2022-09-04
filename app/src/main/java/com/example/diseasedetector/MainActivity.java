@@ -6,16 +6,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.example.diseasedetector.ml.Modelo;
 
@@ -28,7 +26,6 @@ import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.label.Category;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -106,44 +103,72 @@ public class MainActivity extends AppCompatActivity {
 
         // aplicar o blur
         Mat bluredMatImage = new Mat(originalMatImage.rows(), originalMatImage.cols(), originalMatImage.type());
-        Imgproc.blur(originalMatImage, bluredMatImage, new Size(51, 51));
+        Imgproc.blur(originalMatImage, bluredMatImage, new Size(3, 3));
 
         // voltar de Mat pra bitmap para seguir com a análise
         Bitmap finalBitmap = Bitmap.createBitmap(originalMatImage.cols(), originalMatImage.rows(), Bitmap.Config.ARGB_8888);
 
         Utils.matToBitmap(bluredMatImage, finalBitmap);
 
-//        ImageView imgView = findViewById(R.id.imageView);
-//        imgView.setImageBitmap(finalBitmap);
+        this.executeModelInference(finalBitmap);
+    }
 
+    protected void executeModelInference(Bitmap bitmapImage) {
         // usar o modelo pré-treinado para analizar a imagem selecionada
         try {
             Modelo model = Modelo.newInstance(getApplicationContext());
 
             // Converte a imagem selecionada de bitmap para tensor
-            TensorImage image = TensorImage.fromBitmap(finalBitmap);
+            TensorImage image = TensorImage.fromBitmap(bitmapImage);
 
             // Roda a inferência do modelo e pega os resultados
             Modelo.Outputs outputs = model.process(image);
             List<Category> probability = outputs.getProbabilityAsCategoryList();
 
-            // Listar todos os resultados
-//            ArrayList<String> resultados = new ArrayList<>();
-//            for(Category resultado : probability)
-//            {
-//                Float score = resultado.getScore() * 100;
-//                String textResult = resultado.getLabel().concat(" - ").concat(score.toString()).concat("%");
-//                resultados.add(textResult);
-//            }
-//
-//            ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, resultados);
-//
-//            ListView list = findViewById(R.id.list);
-//            list.setAdapter(listAdapter);
-
-            // Releases model resources if no longer used.
+            // encerra o uso do modelo
             model.close();
+
+            // ordenar os resultados do modelo para que o que tem maior probabilidade ficar em primeiro
+            probability.sort((a,b) -> {
+                return a.getScore() < b.getScore() ? 1: -1;
+            });
+
+            Category first = probability.get(0);
+
+            // se a classe com maior chance de estar na imagem tiver pontuação igual ou menor que 50% então não é um resultado válido
+            if (first.getScore() <= 0.5) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("Ops!");
+                dialog.setMessage("Não foi possível chegar a uma conclusão com a imagem informada. Isso pode acontecer quando a foto não aprensenta sintomas ou os sinatomas apresentados não são correspondentes as doenças abordadas nesse APP. Por favor, tente com outra imagem.");
+                dialog.show();
+            } else {
+                this.redirectToResultScreen(first);
+            }
         } catch (IOException e) {
+        }
+    }
+
+    private void redirectToResultScreen(Category result) {
+        String label = result.getLabel();
+
+        // redireciona para a tela de resultado correspondente a label inferida
+        switch (label) {
+            case "healthy":
+                Intent healtyIntent = new Intent(MainActivity.this, HealtyActivity.class);
+                startActivity(healtyIntent);
+                break;
+            case "canker":
+                Intent cankerIntent = new Intent(MainActivity.this, CankerActivity.class);
+                startActivity(cankerIntent);
+                break;
+            case "greening":
+                Intent greeningIntent = new Intent(MainActivity.this, GreeningActivity.class);
+                startActivity(greeningIntent);
+                break;
+            case "Black spot":
+                Intent blackSpotIntent = new Intent(MainActivity.this, BlackSpotActivity.class);
+                startActivity(blackSpotIntent);
+                break;
         }
     }
 }

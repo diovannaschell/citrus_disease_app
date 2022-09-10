@@ -15,7 +15,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.diseasedetector.ml.Modelo;
+import com.example.diseasedetector.ml.GaussianBlurModel;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         // aplicar o blur
         Mat bluredMatImage = new Mat(originalMatImage.rows(), originalMatImage.cols(), originalMatImage.type());
-        Imgproc.blur(originalMatImage, bluredMatImage, new Size(3, 3));
+        Imgproc.GaussianBlur(originalMatImage, bluredMatImage, new Size(3, 3), 0);
 
         // voltar de Mat pra bitmap para seguir com a análise
         Bitmap finalBitmap = Bitmap.createBitmap(originalMatImage.cols(), originalMatImage.rows(), Bitmap.Config.ARGB_8888);
@@ -116,13 +116,13 @@ public class MainActivity extends AppCompatActivity {
     protected void executeModelInference(Bitmap bitmapImage) {
         // usar o modelo pré-treinado para analizar a imagem selecionada
         try {
-            Modelo model = Modelo.newInstance(getApplicationContext());
+            GaussianBlurModel model = GaussianBlurModel.newInstance(getApplicationContext());
 
             // Converte a imagem selecionada de bitmap para tensor
             TensorImage image = TensorImage.fromBitmap(bitmapImage);
 
             // Roda a inferência do modelo e pega os resultados
-            Modelo.Outputs outputs = model.process(image);
+            GaussianBlurModel.Outputs outputs = model.process(image);
             List<Category> probability = outputs.getProbabilityAsCategoryList();
 
             // encerra o uso do modelo

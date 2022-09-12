@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.diseasedetector">
+    package="com.aplicativo.diseasedetector">
 
     <application
         android:allowBackup="true"
@@ -9,19 +9,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DiseaseDetector">
         <activity
-            android:name=".BlackSpotActivity"
+            android:name="com.aplicativo.diseasedetector.BlackSpotActivity"
             android:exported="false" />
         <activity
-            android:name=".GreeningActivity"
+            android:name="com.aplicativo.diseasedetector.GreeningActivity"
             android:exported="false" />
         <activity
-            android:name=".CankerActivity"
+            android:name="com.aplicativo.diseasedetector.CankerActivity"
             android:exported="false" />
         <activity
-            android:name=".HealtyActivity"
+            android:name="com.aplicativo.diseasedetector.HealtyActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.aplicativo.diseasedetector.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

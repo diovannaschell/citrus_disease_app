@@ -7,15 +7,17 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
-import com.aplicativo.diseasedetector.ml.GaussianBlurModel;
+import com.aplicativo.diseasedetector.ml.GaussianModel;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -25,6 +27,8 @@ import org.opencv.imgproc.Imgproc;
 import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.label.Category;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -98,9 +102,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void imageSelected(Bitmap bitmapImg) {
+        // redimensionar a imagem capturada para as dimensões esperadas pelo modelo
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmapImg, 224, 224, false);
+
         // criar imagem mat com o bitmap
         Mat originalMatImage = new Mat();
-        Utils.bitmapToMat(bitmapImg, originalMatImage);
+        Utils.bitmapToMat(resizedBitmap, originalMatImage);
 
         // aplicar o blur
         Mat bluredMatImage = new Mat(originalMatImage.rows(), originalMatImage.cols(), originalMatImage.type());
@@ -108,8 +115,10 @@ public class MainActivity extends AppCompatActivity {
 
         // voltar de Mat pra bitmap para seguir com a análise
         Bitmap finalBitmap = Bitmap.createBitmap(originalMatImage.cols(), originalMatImage.rows(), Bitmap.Config.ARGB_8888);
-
         Utils.matToBitmap(bluredMatImage, finalBitmap);
+
+        // salvar a imagem que será utilizada pelo modelo
+        this.saveImage(finalBitmap);
 
         this.executeModelInference(finalBitmap);
     }
@@ -117,13 +126,13 @@ public class MainActivity extends AppCompatActivity {
     protected void executeModelInference(Bitmap bitmapImage) {
         // usar o modelo pré-treinado para analizar a imagem selecionada
         try {
-            GaussianBlurModel model = GaussianBlurModel.newInstance(getApplicationContext());
+            GaussianModel model = GaussianModel.newInstance(getApplicationContext());
 
             // Converte a imagem selecionada de bitmap para tensor
             TensorImage image = TensorImage.fromBitmap(bitmapImage);
 
             // Roda a inferência do modelo e pega os resultados
-            GaussianBlurModel.Outputs outputs = model.process(image);
+            GaussianModel.Outputs outputs = model.process(image);
             List<Category> probability = outputs.getProbabilityAsCategoryList();
 
             // encerra o uso do modelo
@@ -137,10 +146,10 @@ public class MainActivity extends AppCompatActivity {
             Category first = probability.get(0);
 
             // se a classe com maior chance de estar na imagem tiver pontuação igual ou menor que 50% então não é um resultado válido
-            if (first.getScore() <= 0.5) {
+            if (first.getScore() <= 0.6) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
                 dialog.setTitle("Ops!");
-                dialog.setMessage("Não foi possível chegar a uma conclusão com a imagem informada. Isso pode acontecer quando a foto não aprensenta sintomas ou os sinatomas apresentados não são correspondentes as doenças abordadas nesse APP. Por favor, tente com outra imagem.");
+                dialog.setMessage("Não foi possível chegar a uma conclusão com a imagem informada. Isso pode acontecer quando a foto não aprensenta sintomas ou os sintomas apresentados não são correspondentes as doenças abordadas nesse APP. Por favor, tente com outra imagem.");
                 dialog.show();
             } else {
                 this.redirectToResultScreen(first);
@@ -151,25 +160,54 @@ public class MainActivity extends AppCompatActivity {
 
     private void redirectToResultScreen(Category result) {
         String label = result.getLabel();
+        Float score = (result.getScore()) * 100;
 
         // redireciona para a tela de resultado correspondente a label inferida
         switch (label) {
             case "healthy":
                 Intent healtyIntent = new Intent(MainActivity.this, HealtyActivity.class);
+                healtyIntent.putExtra("score", score);
                 startActivity(healtyIntent);
                 break;
             case "canker":
                 Intent cankerIntent = new Intent(MainActivity.this, CankerActivity.class);
+                cankerIntent.putExtra("score", score);
                 startActivity(cankerIntent);
                 break;
             case "greening":
                 Intent greeningIntent = new Intent(MainActivity.this, GreeningActivity.class);
+                greeningIntent.putExtra("score", score);
                 startActivity(greeningIntent);
                 break;
             case "Black spot":
                 Intent blackSpotIntent = new Intent(MainActivity.this, BlackSpotActivity.class);
+                blackSpotIntent.putExtra("score", score);
                 startActivity(blackSpotIntent);
                 break;
         }
+    }
+
+    private void saveImage(Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        // Create imageDir
+        File mypath=new File(directory,"image.png");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //return directory.getAbsolutePath();
     }
 }

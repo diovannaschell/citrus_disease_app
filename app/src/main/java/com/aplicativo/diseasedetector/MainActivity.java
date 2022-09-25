@@ -17,7 +17,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
-import com.aplicativo.diseasedetector.ml.GaussianModel;
+import com.aplicativo.diseasedetector.ml.GaussianModelRotate;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -126,13 +126,13 @@ public class MainActivity extends AppCompatActivity {
     protected void executeModelInference(Bitmap bitmapImage) {
         // usar o modelo pré-treinado para analizar a imagem selecionada
         try {
-            GaussianModel model = GaussianModel.newInstance(getApplicationContext());
+            GaussianModelRotate model = GaussianModelRotate.newInstance(getApplicationContext());
 
             // Converte a imagem selecionada de bitmap para tensor
             TensorImage image = TensorImage.fromBitmap(bitmapImage);
 
             // Roda a inferência do modelo e pega os resultados
-            GaussianModel.Outputs outputs = model.process(image);
+            GaussianModelRotate.Outputs outputs = model.process(image);
             List<Category> probability = outputs.getProbabilityAsCategoryList();
 
             // encerra o uso do modelo

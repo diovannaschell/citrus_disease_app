@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
+import com.aplicativo.diseasedetector.ml.GaussianGrayscaleModel;
 import com.aplicativo.diseasedetector.ml.GaussianModelRotate;
 
 import org.opencv.android.OpenCVLoader;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         Mat originalMatImage = new Mat();
         Utils.bitmapToMat(resizedBitmap, originalMatImage);
 
-        // aplicar o blur
+        // aplicar o blur na imagem em cores
         Mat bluredMatImage = new Mat(originalMatImage.rows(), originalMatImage.cols(), originalMatImage.type());
         Imgproc.GaussianBlur(originalMatImage, bluredMatImage, new Size(3, 3), 0);
 
@@ -120,12 +121,45 @@ public class MainActivity extends AppCompatActivity {
         // salvar a imagem que será utilizada pelo modelo
         this.saveImage(finalBitmap);
 
-        this.executeModelInference(finalBitmap);
+        // executar o modelo
+        Category result = this.executeModelInference(finalBitmap);
+
+        // se o resultado com a imagem colorida for menor que 60% tenta converter para cinza para avaliar
+        if (result.getScore() < 0.6) {
+            // converter a imagem já com blur para tons de cinza
+            Mat bluredGrayMatImage = new Mat(originalMatImage.rows(), originalMatImage.cols(), originalMatImage.type());
+            Imgproc.cvtColor(bluredMatImage, bluredGrayMatImage, Imgproc.COLOR_RGB2GRAY);
+
+            // voltar de Mat pra bitmap para seguir com a análise
+            Bitmap finalGrayBitmap = Bitmap.createBitmap(originalMatImage.cols(), originalMatImage.rows(), Bitmap.Config.ARGB_8888);
+            Utils.matToBitmap(bluredGrayMatImage, finalGrayBitmap);
+
+            // salvar a imagem que será utilizada pelo modelo
+            this.saveImage(finalGrayBitmap);
+
+            // executar o modelo treinado em tons de cinza
+            Category resultGray = this.executeGrayModelInference(finalGrayBitmap);
+
+            // se não atingir 60% de pontuação com nenhum modelo, mostra a mensagem de erro
+            if (resultGray.getScore() < 0.6) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                dialog.setTitle("Ops!");
+                dialog.setMessage("Não foi possível chegar a uma conclusão com a imagem informada. Isso pode acontecer quando a foto não aprensenta sintomas ou os sintomas apresentados não são correspondentes as doenças abordadas nesse APP. Por favor, tente com outra imagem.");
+                dialog.show();
+            } else {
+                this.redirectToResultScreen(resultGray, "cinza");
+            }
+        } else {
+            this.redirectToResultScreen(result, "colorida");
+        }
     }
 
-    protected void executeModelInference(Bitmap bitmapImage) {
+    protected Category executeModelInference(Bitmap bitmapImage) {
+        Category first = null;
+
         // usar o modelo pré-treinado para analizar a imagem selecionada
         try {
+            // executar o modelo treinado com as imagens coloridas
             GaussianModelRotate model = GaussianModelRotate.newInstance(getApplicationContext());
 
             // Converte a imagem selecionada de bitmap para tensor
@@ -143,22 +177,45 @@ public class MainActivity extends AppCompatActivity {
                 return a.getScore() < b.getScore() ? 1: -1;
             });
 
-            Category first = probability.get(0);
+            first = probability.get(0);
 
-            // se a classe com maior chance de estar na imagem tiver pontuação igual ou menor que 50% então não é um resultado válido
-            if (first.getScore() <= 0.6) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-                dialog.setTitle("Ops!");
-                dialog.setMessage("Não foi possível chegar a uma conclusão com a imagem informada. Isso pode acontecer quando a foto não aprensenta sintomas ou os sintomas apresentados não são correspondentes as doenças abordadas nesse APP. Por favor, tente com outra imagem.");
-                dialog.show();
-            } else {
-                this.redirectToResultScreen(first);
-            }
         } catch (IOException e) {
         }
+
+        return first;
     }
 
-    private void redirectToResultScreen(Category result) {
+    protected Category executeGrayModelInference(Bitmap grayBitmapImage) {
+        // usar o modelo pré-treinado para analizar a imagem selecionada
+        Category firstGray = null;
+
+        try {
+            // executar o modelo treinado em escala de cinza
+            GaussianGrayscaleModel modelGray = GaussianGrayscaleModel.newInstance(getApplicationContext());
+
+            // converte a imagem selecionada em tensor
+            TensorImage imageGray = TensorImage.fromBitmap(grayBitmapImage);
+
+            // executa o modelo
+            GaussianGrayscaleModel.Outputs outputsGray = modelGray.process(imageGray);
+            List<Category> probabilityGray = outputsGray.getProbabilityAsCategoryList();
+
+            // encerra o uso do modelo
+            modelGray.close();
+
+            // ordenar os resultados do modelo para que o que tem maior probabilidade ficar em primeiro
+            probabilityGray.sort((a,b) -> {
+                return a.getScore() < b.getScore() ? 1: -1;
+            });
+
+            firstGray = probabilityGray.get(0);
+        } catch (IOException e) {
+        }
+
+        return firstGray;
+    }
+
+    private void redirectToResultScreen(Category result, String modelo) {
         String label = result.getLabel();
         Float score = (result.getScore()) * 100;
 
@@ -167,21 +224,25 @@ public class MainActivity extends AppCompatActivity {
             case "healthy":
                 Intent healtyIntent = new Intent(MainActivity.this, HealtyActivity.class);
                 healtyIntent.putExtra("score", score);
+                healtyIntent.putExtra("modelo", modelo);
                 startActivity(healtyIntent);
                 break;
             case "canker":
                 Intent cankerIntent = new Intent(MainActivity.this, CankerActivity.class);
                 cankerIntent.putExtra("score", score);
+                cankerIntent.putExtra("modelo", modelo);
                 startActivity(cankerIntent);
                 break;
             case "greening":
                 Intent greeningIntent = new Intent(MainActivity.this, GreeningActivity.class);
                 greeningIntent.putExtra("score", score);
+                greeningIntent.putExtra("modelo", modelo);
                 startActivity(greeningIntent);
                 break;
             case "Black spot":
                 Intent blackSpotIntent = new Intent(MainActivity.this, BlackSpotActivity.class);
                 blackSpotIntent.putExtra("score", score);
+                blackSpotIntent.putExtra("modelo", modelo);
                 startActivity(blackSpotIntent);
                 break;
         }

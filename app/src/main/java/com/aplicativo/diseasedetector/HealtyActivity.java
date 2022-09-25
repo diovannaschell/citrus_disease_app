@@ -15,8 +15,12 @@ public class HealtyActivity extends AppCompatActivity {
         Float score = getIntent().getExtras().getFloat("score");
         String textoScore =  String.format("%.2f", score);
 
+        String modelo = getIntent().getExtras().getString("modelo");
+
         TextView text = (TextView)findViewById(R.id.resultText);
-        String diagnostico = "A folha da imagem está saudável com ".concat(textoScore).concat("% de certeza");
-        text.setText(diagnostico.concat(" , porém é importante manter alguns cuidados da mesma forma."));
+        String diagnostico = "A folha da imagem ";
+        diagnostico = diagnostico.concat(modelo);
+        diagnostico = diagnostico.concat(" informada está saudável com ".concat(textoScore).concat("% de certeza"));
+        text.setText(diagnostico.concat(" A seguir são listados alguns procedimentos que devem ser seguidos."));
     }
 }

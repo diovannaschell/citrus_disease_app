@@ -15,12 +15,9 @@ public class BlackSpotActivity extends AppCompatActivity {
         Float score = getIntent().getExtras().getFloat("score");
         String textoScore =  String.format("%.2f", score);
 
-        String modelo = getIntent().getExtras().getString("modelo");
-
         TextView text = (TextView)findViewById(R.id.resultText);
-        String diagnostico = "Infelimente a MANCHA PRETA foi detectada na imagem ";
-        diagnostico = diagnostico.concat(modelo);
-        diagnostico = diagnostico.concat(" informada, com ".concat(textoScore).concat("% de certeza."));
+        String diagnostico = "Infelimente a MANCHA PRETA foi detectada na imagem informada, com ";
+        diagnostico = diagnostico.concat(textoScore.concat("% de certeza."));
         text.setText(diagnostico.concat(" A seguir são listados alguns procedimentos que devem ser seguidos."));
     }
 }

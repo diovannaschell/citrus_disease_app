@@ -10,4 +10,6 @@ Para rodar o APP basta clonar o projeto e abrir ele com o Android Studio.
 
 O APP desenvolvido está disponível para download na [Play Store](https://play.google.com/store/apps/details?id=com.aplicativo.diseasedetector).
 
-O código usado para a validação do modelo está disponível neste link: [Validação da IA](https://colab.research.google.com/drive/1Oduqy8WTo6e4c-Cra2FNQLNq58E4X0pz?usp=sharing)
+O código usado para o treinamento e exportação do modelo está disponível no link: [Treinamento da IA](https://colab.research.google.com/drive/143chAnQ5uRMnSptG9kAKDeB4D8vzNRgO?usp=sharing). Para o treinamento do modelo, usou-se 80% das imagens para treino, 10% para teste e 10% para validação.
+
+O código usado para a validação do modelo na amostra da pesquisa está disponível neste link: [Validação da IA](https://colab.research.google.com/drive/1Oduqy8WTo6e4c-Cra2FNQLNq58E4X0pz?usp=sharing). A população estudada contava com 928 imagens, por tanto para atingir um grau de confiança de 95% com 5% de margem de erro, utilizou-se uma amostra de no mínimo 272 imagens.

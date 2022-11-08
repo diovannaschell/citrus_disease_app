@@ -17,7 +17,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
-import com.aplicativo.diseasedetector.ml.ModeloCorOriginal;
+import com.aplicativo.diseasedetector.ml.ModeloFinal200epocas;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         Mat originalMatImage = new Mat();
         Utils.bitmapToMat(resizedBitmap, originalMatImage);
 
-        // converter a imagem de bgr para rgb
         Mat bluredMatImage = new Mat(originalMatImage.rows(), originalMatImage.cols(), originalMatImage.type());
 
         // aplicar o blur na imagem em cores
@@ -142,13 +141,13 @@ public class MainActivity extends AppCompatActivity {
         // usar o modelo pré-treinado para analizar a imagem selecionada
         try {
             // executar o modelo treinado com as imagens coloridas
-            ModeloCorOriginal model = ModeloCorOriginal.newInstance(getApplicationContext());
+            ModeloFinal200epocas model = ModeloFinal200epocas.newInstance(getApplicationContext());
 
             // Converte a imagem selecionada de bitmap para tensor
             TensorImage image = TensorImage.fromBitmap(bitmapImage);
 
             // Roda a inferência do modelo e pega os resultados
-            ModeloCorOriginal.Outputs outputs = model.process(image);
+            ModeloFinal200epocas.Outputs outputs = model.process(image);
             List<Category> probability = outputs.getProbabilityAsCategoryList();
 
             // encerra o uso do modelo
